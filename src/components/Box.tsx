@@ -6,14 +6,14 @@ interface BoxProps {
   [key: string]: any;
 }
 
-const Box: React.FC<BoxProps> = () => {
+const Box: React.FC<BoxProps> = ({...props}) => {
   const ref = useRef<Mesh>(null!);
   useFrame(state => {
       ref.current.rotation.x += 0.01;
       ref.current.rotation.y += 0.01;
   })
   return (
-    <mesh ref={ref}>
+    <mesh ref={ref} {...props}>
       <boxGeometry/>
       <meshBasicMaterial color='blue'/>
     </mesh>
