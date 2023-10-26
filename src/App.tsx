@@ -1,33 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import * as THREE from 'three';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    75, 
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  )
+  const renderer = new THREE.WebGL1Renderer();
+  renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+  )
+  document.body.innerHTML = '';
+  document.body.appendChild(renderer.domElement);
+
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshBasicMaterial({
+    color: 'blue'
+  })
+
+  camera.position.z = 5;
+  const cube = new THREE.Mesh(geometry, material)
+  scene.add(cube);
+
+  const animate = () => {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  })
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>3D Tesla Configurator</div>
     </>
   )
 }
