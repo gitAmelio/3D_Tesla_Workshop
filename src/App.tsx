@@ -7,22 +7,26 @@ import { Suspense } from 'react';
 import Background from './components/Backgroud';
 
 const App = () => {
+
   return (
     <div style={{height: '100vh', width: '100vw'}}>
       <Canvas 
         shadows
         style={{background: 'black'}} 
-        camera={{position: [1,5,1]}}
+        camera={{position: [7,7,7]}}
         >
         <ambientLight intensity={0.2} />  
         {/* <fog attach='fog' args={['white', 1, 10]}/> */}
         <Bulb position={[0,3,0]}/>
         <Suspense fallback={null}>
-          <Box position={[0,1,0]}/>
+          <Box meshId={1} position={[-2,1,0]}/>
         </Suspense>
-        <Suspense>
+        <Suspense fallback={null}>
+          <Box meshId={2} position={[2,1,0]}/>
+        </Suspense>
+        {/* <Suspense>
           <Background />
-        </Suspense>
+        </Suspense> */}
         <axesHelper args={[5]}/>
         <OrbitControls />
         {/* <CustomGeometryParticles count={2000} shape="sphere"/> */}
